@@ -33,17 +33,24 @@ class CheckoutScreenContainer extends React.Component {
       const token = JSON.parse(jsonToken)
       const accountId = JSON.parse(jsonAccountId)
 
-      const { wallet } = await Api.fetch(
-        `/api/v0/accounts/${accountId}/wallet`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`
+      try {
+        const { wallet } = await Api.fetch(
+          `/api/v0/accounts/${accountId}/wallet`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`
+            }
           }
-        }
-      )
+        )
 
-      this.setState({ wallet })
+        this.setState({ wallet })
+      } catch (e) {
+        console.log('Could not fetch wallet')
+
+        localStorage.removeItem('@1000pals.token')
+        localStorage.removeItem('@1000pals.accountId')
+      }
     }
 
     this.setState({ fetching: false })
