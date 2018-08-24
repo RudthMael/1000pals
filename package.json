@@ -30,7 +30,8 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "babel-node": "babel-node --presets=env",
-    "server:start": "nodemon --exec npm run babel-node -- ./server/index.js",
+    "server:start": "yarn babel-node -- ./server/index.js",
+    "server:local": "nodemon --exec yarn babel-node -- ./server/index.js",
     "heroku-postbuild": "yarn install && yarn build"
   },
   "prettier": {
