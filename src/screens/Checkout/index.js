@@ -20,8 +20,9 @@ class Checkout extends React.Component {
       const accountId = JSON.parse(jsonAccountId)
 
       try {
+        const API_HOST = process.env.REACT_APP_API_HOST
         const { wallet } = await Api.fetch(
-          `http://localhost:6060/api/v1/accounts/${accountId}/wallet`,
+          `${API_HOST}/api/v1/accounts/${accountId}/wallet`,
           {
             headers: {
               'Content-Type': 'application/json',
