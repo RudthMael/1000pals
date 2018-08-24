@@ -71,8 +71,9 @@ class Checkout extends React.Component {
     this.setState({ submitting: true })
 
     try {
+      const API_HOST = process.env.REACT_APP_API_HOST
       const { payment } = await Api.fetch(
-        `/api/v1/accounts/${accountId}/wallet/payments`,
+        `${API_HOST}/api/v1/accounts/${accountId}/wallet/payments`,
         {
           headers: {
             'Content-Type': 'application/json',

@@ -12,6 +12,10 @@ const BANKING_API_HOST = process.env.BANKING_API_HOST
 
 const app = express()
 
+// Proxy anything starting with `/api` to the banking api
+app.use('/api', proxy({ target: BANKING_API_HOST, changeOrigin: true }))
+
+// Now configure the rest
 app.use(bodyParser.json())
 app.use(cors())
 app.use(express.static(path.join(__dirname, '..', 'build')))
@@ -40,8 +44,6 @@ app.post('/login', async (req, res) => {
     })
   }
 })
-
-app.use('/api', proxy({ target: BANKING_API_HOST, changeOrigin: true }))
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'build', 'index.html'))
