@@ -14,7 +14,7 @@ const app = express()
 
 app.use(bodyParser.json())
 app.use(cors())
-app.use(express.static(path.join(__dirname, 'build')))
+app.use(express.static(path.join(__dirname, '..', 'build')))
 
 app.get('/ping', (req, res) => {
   return res.json({ status: 'pong' })
@@ -44,7 +44,7 @@ app.post('/login', async (req, res) => {
 app.use('/api', proxy({ target: BANKING_API_HOST, changeOrigin: true }))
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'))
+  res.sendFile(path.join(__dirname, '..', 'build', 'index.html'))
 })
 
 app.listen(PORT)
