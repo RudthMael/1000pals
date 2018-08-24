@@ -7,7 +7,7 @@ import path from 'path'
 import cors from 'cors'
 import lib from './lib'
 
-const PORT = process.env.SERVER_PORT || 6060
+const PORT = process.env.PORT || 6060
 const BANKING_API_HOST = process.env.BANKING_API_HOST
 
 const app = express()
