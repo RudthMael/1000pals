@@ -36,7 +36,7 @@ class Pay extends React.Component {
                   </Button>
                 </div>
               ) : (
-                <Button primary onClick={this.handleConnectClick}>
+                <Button primary as="a" href={this.props.authorizationURL}>
                   Connect
                 </Button>
               ))}

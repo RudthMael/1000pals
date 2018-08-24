@@ -3,7 +3,12 @@ import { Header, Message } from 'semantic-ui-react'
 import Cart from './Cart'
 import Pay from './Pay'
 
-const CheckoutScreen = ({ onConnectClick, onPayClick, error }) => {
+const CheckoutScreen = ({
+  onConnectClick,
+  onPayClick,
+  authorizationURL,
+  error
+}) => {
   return (
     <div>
       <Header as="h1" style={{ marginBottom: 16 }}>
@@ -20,7 +25,7 @@ const CheckoutScreen = ({ onConnectClick, onPayClick, error }) => {
 
       <Cart />
 
-      <Pay onConnectClick={onConnectClick} onPayClick={onPayClick} />
+      <Pay onPayClick={onPayClick} authorizationURL={authorizationURL} />
     </div>
   )
 }
