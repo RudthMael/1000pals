@@ -110,6 +110,26 @@ app.get('/payments', jwtProtection, async (req, res) => {
   }
 })
 
+app.post('/payments/:paymentId/refund', jwtProtection, async (req, res) => {
+  try {
+    const { bkg: accountUid } = req.user
+    const payment = await lib.payments.refund(accountUid, req.params.paymentId)
+
+    res.status(200).json({
+      payment
+    })
+  } catch (error) {
+    console.error(error)
+    res.status(400).json({
+      result: {
+        error: {
+          message: error.message
+        }
+      }
+    })
+  }
+})
+
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'build', 'index.html'))
 })

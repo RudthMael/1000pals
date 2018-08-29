@@ -40,9 +40,15 @@ const OrdersListScreen = ({ orders, error, onRefundClick }) => {
                 </Table.Cell>
                 <Table.Cell>{order.amount} €</Table.Cell>
                 <Table.Cell>
-                  <Button onClick={e => refundFn(onRefundClick, e, order.uuid)}>
-                    Refund
-                  </Button>
+                  {order.refunded ? (
+                    <span>Refunded</span>
+                  ) : (
+                    <Button
+                      onClick={e => refundFn(onRefundClick, e, order.uuid)}
+                    >
+                      Refund
+                    </Button>
+                  )}
                 </Table.Cell>
               </Table.Row>
             ))}

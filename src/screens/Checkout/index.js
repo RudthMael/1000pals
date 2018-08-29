@@ -96,7 +96,8 @@ class Checkout extends React.Component {
       const API_HOST = process.env.REACT_APP_API_HOST
       await Api.fetch(`${API_HOST}/payments`, {
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
         },
         method: 'POST',
         body: JSON.stringify({

@@ -2,6 +2,10 @@ import React from 'react'
 import Api from '../../services/api'
 import OrdersListScreen from './OrdersList'
 
+const BANKING_API_HOST =
+  process.env.NODE_ENV === 'production' ? process.env.REACT_APP_API_HOST : ''
+const API_HOST = process.env.REACT_APP_API_HOST
+
 class OrdersList extends React.Component {
   state = { orders: [] }
 
@@ -10,7 +14,6 @@ class OrdersList extends React.Component {
     const token = JSON.parse(jsonToken)
 
     try {
-      const API_HOST = process.env.REACT_APP_API_HOST
       const { payments } = await Api.fetch(`${API_HOST}/payments`, {
         headers: {
           'Content-Type': 'application/json',
@@ -24,8 +27,38 @@ class OrdersList extends React.Component {
     }
   }
 
-  handleRefundClick(orderId) {
-    console.log(orderId)
+  async handleRefundClick(orderId) {
+    try {
+      const jsonToken = localStorage.getItem('@1000pals.token')
+      const jsonAccountId = localStorage.getItem('@1000pals.accountId')
+
+      if (jsonToken) {
+        const token = JSON.parse(jsonToken)
+        const accountId = JSON.parse(jsonAccountId)
+
+        const url = `${BANKING_API_HOST}/api/v1/accounts/${accountId}/wallet/payments/${orderId}/refund`
+        await Api.fetch(url, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
+          },
+          method: 'PUT',
+          body: JSON.stringify({})
+        })
+
+        await Api.fetch(`${API_HOST}/payments/${orderId}/refund`, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
+          },
+          method: 'POST',
+          body: JSON.stringify({})
+        })
+      }
+    } catch (error) {
+      console.error(error)
+      this.setState({ error: error.message })
+    }
   }
 
   render() {
