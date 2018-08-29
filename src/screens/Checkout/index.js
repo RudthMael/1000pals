@@ -4,6 +4,9 @@ import CheckoutScreen from './Checkout'
 import Context from './context'
 import Api from '../../services/api'
 
+const BANKING_API_HOST =
+  process.env.NODE_ENV === 'production' ? process.env.REACT_APP_API_HOST : ''
+
 class Checkout extends React.Component {
   state = { wallet: null, fetching: true, submitting: false, error: null }
 
@@ -20,9 +23,8 @@ class Checkout extends React.Component {
       const accountId = JSON.parse(jsonAccountId)
 
       try {
-        const API_HOST = process.env.REACT_APP_API_HOST
         const { wallet } = await Api.fetch(
-          `${API_HOST}/api/v1/accounts/${accountId}/wallet`,
+          `${BANKING_API_HOST}/api/v1/accounts/${accountId}/wallet`,
           {
             headers: {
               'Content-Type': 'application/json',
@@ -71,9 +73,8 @@ class Checkout extends React.Component {
     this.setState({ submitting: true })
 
     try {
-      const API_HOST = process.env.REACT_APP_API_HOST
       const { payment } = await Api.fetch(
-        `${API_HOST}/api/v1/accounts/${accountId}/wallet/payments`,
+        `${BANKING_API_HOST}/api/v1/accounts/${accountId}/wallet/payments`,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -91,6 +92,17 @@ class Checkout extends React.Component {
           })
         }
       )
+
+      const API_HOST = process.env.REACT_APP_API_HOST
+      await Api.fetch(`${API_HOST}/payments`, {
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify({
+          payment
+        })
+      })
 
       this.props.history.push(`/order/${payment.uuid}`)
     } catch (error) {

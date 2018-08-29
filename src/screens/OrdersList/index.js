@@ -7,31 +7,34 @@ class OrdersList extends React.Component {
 
   async componentWillMount() {
     const jsonToken = localStorage.getItem('@1000pals.token')
-    const jsonAccountId = localStorage.getItem('@1000pals.accountId')
     const token = JSON.parse(jsonToken)
-    const accountId = JSON.parse(jsonAccountId)
 
     try {
-      const { payments: orders } = Api.fetch(
-        `/api/v1/accounts/${accountId}/wallet/payments`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`
-          }
+      const API_HOST = process.env.REACT_APP_API_HOST
+      const { payments } = await Api.fetch(`${API_HOST}/payments`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
         }
-      )
-
-      this.setState({ orders })
+      })
+      this.setState({ orders: payments })
     } catch (error) {
       console.log(error)
       this.setState({ error: error.message })
     }
   }
 
+  handleRefundClick(orderId) {
+    console.log(orderId)
+  }
+
   render() {
     return (
-      <OrdersListScreen orders={this.state.orders} error={this.state.error} />
+      <OrdersListScreen
+        orders={this.state.orders}
+        error={this.state.error}
+        onRefundClick={this.handleRefundClick.bind(this)}
+      />
     )
   }
 }

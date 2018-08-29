@@ -33,7 +33,7 @@
     "eject": "react-scripts eject",
     "babel-node": "babel-node --presets=env",
     "server:start": "yarn babel-node -- ./server/index.js",
-    "server:local": "nodemon --exec yarn babel-node -- ./server/index.js",
+    "server:local": "nodemon --watch server --exec yarn babel-node -- ./server/index.js",
     "heroku-postbuild": "yarn install && yarn build"
   },
   "proxy": {

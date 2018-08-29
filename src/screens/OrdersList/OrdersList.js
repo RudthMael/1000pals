@@ -1,7 +1,13 @@
 import React from 'react'
-import { Header, Message, Table } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
+import { Header, Message, Table, Button } from 'semantic-ui-react'
 
-const OrdersListScreen = ({ orders, error }) => {
+const refundFn = (fn, event, orderId) => {
+  event.preventDefault()
+  fn(orderId)
+}
+
+const OrdersListScreen = ({ orders, error, onRefundClick }) => {
   return (
     <div>
       <Header as="h1" style={{ marginBottom: 16 }}>
@@ -22,16 +28,22 @@ const OrdersListScreen = ({ orders, error }) => {
             <Table.Row>
               <Table.HeaderCell>ID</Table.HeaderCell>
               <Table.HeaderCell>Amount</Table.HeaderCell>
-              <Table.HeaderCell />
+              <Table.HeaderCell colSpan={2} />
             </Table.Row>
           </Table.Header>
 
           <Table.Body>
             {orders.map(order => (
               <Table.Row key={order.uuid}>
-                <Table.Cell>{order.uuid}</Table.Cell>
+                <Table.Cell>
+                  <Link to={`/order/${order.uuid}`}>{order.uuid}</Link>
+                </Table.Cell>
                 <Table.Cell>{order.amount} €</Table.Cell>
-                <Table.Cell>{order.amount} €</Table.Cell>
+                <Table.Cell>
+                  <Button onClick={e => refundFn(onRefundClick, e, order.uuid)}>
+                    Refund
+                  </Button>
+                </Table.Cell>
               </Table.Row>
             ))}
           </Table.Body>
