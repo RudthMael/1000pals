@@ -14,18 +14,15 @@ class Callback extends React.Component {
     try {
       this.setState({ fetching: true })
 
-      const result = await Api.fetch(
-        `${API_HOST}/login`,
-        {
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          method: 'POST',
-          body: JSON.stringify({
-            code
-          })
-        }
-      )
+      const result = await Api.fetch(`${API_HOST}/login`, {
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify({
+          code
+        })
+      })
 
       const { access_token: accessToken } = result
       const jwtData = jwtDecode(accessToken)
@@ -35,7 +32,7 @@ class Callback extends React.Component {
 
       window.location.href = '/checkout'
     } catch (error) {
-      console.error(error)
+      console.error('Could not log in', error)
       this.setState({ error: error.message, fetching: false })
     }
   }

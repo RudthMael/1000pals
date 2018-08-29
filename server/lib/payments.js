@@ -38,7 +38,6 @@ export default {
   },
 
   async refund(accountUid, paymentUid) {
-    console.log({ accountUid, paymentUid })
     const collection = db.get().collection('payments')
 
     const data = await collection.findOneAndUpdate(

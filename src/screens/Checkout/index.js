@@ -107,6 +107,7 @@ class Checkout extends React.Component {
 
       this.props.history.push(`/order/${payment.uuid}`)
     } catch (error) {
+      console.error('Could not make payment', error)
       this.setState({ error: error.message, submitting: false })
     }
   }

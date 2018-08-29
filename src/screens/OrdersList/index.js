@@ -22,7 +22,7 @@ class OrdersList extends React.Component {
       })
       this.setState({ orders: payments })
     } catch (error) {
-      console.log(error)
+      console.log('Could not fetch payments', error)
       this.setState({ error: error.message })
     }
   }
@@ -56,7 +56,7 @@ class OrdersList extends React.Component {
         })
       }
     } catch (error) {
-      console.error(error)
+      console.error('Could not make a refund', error)
       this.setState({ error: error.message })
     }
   }

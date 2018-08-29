@@ -25,7 +25,8 @@ class Order extends React.Component {
 
       this.setState({ payment })
     } catch (error) {
-      console.error(error)
+      console.error('Could not fech payment', error)
+      this.setState({ error: error.message })
     }
   }
 
