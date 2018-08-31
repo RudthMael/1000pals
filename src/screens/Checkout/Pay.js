@@ -32,7 +32,12 @@ class Pay extends React.Component {
                     loading={submitting}
                     onClick={this.handlePayClick}
                   >
-                    Pay 17,50 €
+                    Pay{' '}
+                    {this.props.cart.items.reduce(
+                      (acc, item) => acc + item.price,
+                      0
+                    )}{' '}
+                    €
                   </Button>
                 </div>
               ) : (

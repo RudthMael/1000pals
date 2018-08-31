@@ -1,7 +1,7 @@
 import React from 'react'
 import { Table, Header } from 'semantic-ui-react'
 
-const Cart = props => {
+const Cart = ({ cart }) => {
   return (
     <div style={{ marginBottom: 30 }}>
       <Header>Your cart content</Header>
@@ -15,14 +15,12 @@ const Cart = props => {
         </Table.Header>
 
         <Table.Body>
-          <Table.Row>
-            <Table.Cell>Juaja Rice</Table.Cell>
-            <Table.Cell>14 €</Table.Cell>
-          </Table.Row>
-          <Table.Row>
-            <Table.Cell>Coca Zéro</Table.Cell>
-            <Table.Cell>3,50 €</Table.Cell>
-          </Table.Row>
+          {cart.items.map(item => (
+            <Table.Row key={item.name}>
+              <Table.Cell>{item.name}</Table.Cell>
+              <Table.Cell>{item.price} €</Table.Cell>
+            </Table.Row>
+          ))}
         </Table.Body>
 
         <Table.Footer>
@@ -31,7 +29,9 @@ const Cart = props => {
               <strong>Total</strong>
             </Table.HeaderCell>
             <Table.HeaderCell>
-              <strong>17,50 €</strong>
+              <strong>
+                {cart.items.reduce((acc, item) => acc + item.price, 0)} €
+              </strong>
             </Table.HeaderCell>
           </Table.Row>
         </Table.Footer>

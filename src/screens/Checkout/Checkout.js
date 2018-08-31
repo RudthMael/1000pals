@@ -7,7 +7,8 @@ const CheckoutScreen = ({
   onConnectClick,
   onPayClick,
   authorizationURL,
-  error
+  error,
+  cart
 }) => {
   return (
     <div>
@@ -23,9 +24,13 @@ const CheckoutScreen = ({
         />
       )}
 
-      <Cart />
+      <Cart cart={cart} />
 
-      <Pay onPayClick={onPayClick} authorizationURL={authorizationURL} />
+      <Pay
+        onPayClick={onPayClick}
+        authorizationURL={authorizationURL}
+        cart={cart}
+      />
     </div>
   )
 }

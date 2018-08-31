@@ -3,12 +3,23 @@ import React from 'react'
 import CheckoutScreen from './Checkout'
 import Context from './context'
 import Api from '../../services/api'
+import CARTS from '../CartsList/carts.json'
 
 const BANKING_API_HOST =
   process.env.NODE_ENV === 'production' ? process.env.REACT_APP_API_HOST : ''
 
 class Checkout extends React.Component {
-  state = { wallet: null, fetching: true, submitting: false, error: null }
+  constructor(props) {
+    super(props)
+
+    this.currentCart = CARTS[props.match.params.cartId]
+    this.state = {
+      wallet: null,
+      fetching: true,
+      submitting: false,
+      error: null
+    }
+  }
 
   componentWillMount() {
     this.fetchWallet()
@@ -83,9 +94,12 @@ class Checkout extends React.Component {
           method: 'POST',
           body: JSON.stringify({
             payment: {
-              merchant_siret: '80918561400017',
-              merchant_name: 'B.F NICE',
-              amount: 17.5,
+              merchant_siret: this.currentCart.restaurant.siret,
+              merchant_name: this.currentCart.restaurant.name,
+              amount: this.currentCart.items.reduce(
+                (acc, item) => acc + item.price,
+                0
+              ),
               currency: 'EUR',
               date: new Date().toISOString()
             }
@@ -123,6 +137,7 @@ class Checkout extends React.Component {
       <Context.Provider value={providerData}>
         <CheckoutScreen
           {...this.props}
+          cart={this.currentCart}
           error={this.state.error}
           onPayClick={this.handlePayClick}
           authorizationURL={this.authorizationURL}

@@ -1,0 +1,63 @@
+{
+  "1": {
+    "id": "1",
+    "restaurant": {
+      "name": "Elgi Bourse",
+      "siret": "47762450600044",
+      "accepts_meal_voucher": true
+    },
+    "items": [
+      {
+        "name": "Tikki Poke Bowl",
+        "price": 13.5
+      },
+      {
+        "name": "Coca Zéro",
+        "price": 2.2
+      }
+    ],
+    "total": 15.7
+  },
+  "2": {
+    "id": "2",
+    "restaurant": {
+      "name": "Pistolet Kitchen",
+      "siret": "83046371700017",
+      "accepts_meal_voucher": false
+    },
+    "items": [
+      {
+        "name": "Pistolet Pei - Thon, ciboulette",
+        "price": 6
+      },
+      {
+        "name": "Gauffre de Liège",
+        "price": 3
+      },
+      {
+        "name": "Spa",
+        "price": 2.5
+      }
+    ],
+    "total": 11.5
+  },
+  "3": {
+    "id": "3",
+    "restaurant": {
+      "name": "Fish and Ship",
+      "siret": "82524691100010",
+      "accepts_meal_voucher": true
+    },
+    "items": [
+      {
+        "name": "Fish & Chips Onions",
+        "price": 15
+      },
+      {
+        "name": "Thé",
+        "price": 5
+      }
+    ],
+    "total": 20
+  }
+}
