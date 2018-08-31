@@ -22,39 +22,38 @@ const OrdersListScreen = ({ orders, error, onRefundClick }) => {
         />
       )}
 
-      {orders && (
-        <Table basic>
-          <Table.Header>
-            <Table.Row>
-              <Table.HeaderCell>ID</Table.HeaderCell>
-              <Table.HeaderCell>Amount</Table.HeaderCell>
-              <Table.HeaderCell colSpan={2} />
-            </Table.Row>
-          </Table.Header>
+      <Table basic>
+        <Table.Header>
+          <Table.Row>
+            <Table.HeaderCell>ID</Table.HeaderCell>
+            <Table.HeaderCell>Amount</Table.HeaderCell>
+            <Table.HeaderCell colSpan={2} />
+          </Table.Row>
+        </Table.Header>
 
-          <Table.Body>
-            {orders.map(order => (
-              <Table.Row key={order.uuid}>
-                <Table.Cell>
-                  <Link to={`/order/${order.uuid}`}>{order.uuid}</Link>
-                </Table.Cell>
-                <Table.Cell>{order.amount} €</Table.Cell>
-                <Table.Cell>
-                  {order.refunded ? (
-                    <span>Refunded</span>
-                  ) : (
-                    <Button
-                      onClick={e => refundFn(onRefundClick, e, order.uuid)}
-                    >
-                      Refund
-                    </Button>
-                  )}
-                </Table.Cell>
-              </Table.Row>
-            ))}
-          </Table.Body>
-        </Table>
-      )}
+        <Table.Body>
+          {Object.values(orders).map(order => (
+            <Table.Row key={order.uuid}>
+              <Table.Cell>
+                <Link to={`/order/${order.uuid}`}>{order.uuid}</Link>
+              </Table.Cell>
+              <Table.Cell>{order.amount} €</Table.Cell>
+              <Table.Cell>
+                {order.refunded ? (
+                  <span>Refunded</span>
+                ) : (
+                  <Button
+                    onClick={e => refundFn(onRefundClick, e, order.uuid)}
+                    loading={order.refunding}
+                  >
+                    Refund
+                  </Button>
+                )}
+              </Table.Cell>
+            </Table.Row>
+          ))}
+        </Table.Body>
+      </Table>
     </div>
   )
 }

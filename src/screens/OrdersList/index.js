@@ -7,7 +7,7 @@ const BANKING_API_HOST =
 const API_HOST = process.env.REACT_APP_API_HOST
 
 class OrdersList extends React.Component {
-  state = { orders: [] }
+  state = { orders: {}, refunding: false }
 
   async componentWillMount() {
     const jsonToken = localStorage.getItem('@1000pals.token')
@@ -20,7 +20,15 @@ class OrdersList extends React.Component {
           Authorization: `Bearer ${token}`
         }
       })
-      this.setState({ orders: payments })
+      const orders = payments.reduce(
+        (acc, payment) => ({
+          ...acc,
+          [payment.uuid]: payment
+        }),
+        {}
+      )
+
+      this.setState({ orders })
     } catch (error) {
       console.log('Could not fetch payments', error)
       this.setState({ error: error.message })
@@ -29,6 +37,16 @@ class OrdersList extends React.Component {
 
   async handleRefundClick(orderId) {
     try {
+      this.setState({
+        orders: {
+          ...this.state.orders,
+          [orderId]: {
+            ...this.state.orders[orderId],
+            refunding: true
+          }
+        }
+      })
+
       const jsonToken = localStorage.getItem('@1000pals.token')
       const jsonAccountId = localStorage.getItem('@1000pals.accountId')
 
@@ -42,15 +60,25 @@ class OrdersList extends React.Component {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`
           },
-          method: 'PUT',
+          method: 'PUT'
         })
 
-        const { payment } = await Api.fetch(`${API_HOST}/payments/${orderId}/refund`, {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`
-          },
-          method: 'POST',
+        const { payment } = await Api.fetch(
+          `${API_HOST}/payments/${orderId}/refund`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`
+            },
+            method: 'POST'
+          }
+        )
+
+        this.setState({
+          orders: {
+            ...this.state.orders,
+            [orderId]: payment
+          }
         })
       }
     } catch (error) {
