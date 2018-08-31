@@ -3,10 +3,7 @@ import { Button, Header } from 'semantic-ui-react'
 import Context from './context'
 
 class Pay extends React.Component {
-  handleConnectClick = event => {
-    event.preventDefault()
-    this.props.onConnectClick()
-  }
+  handleConnectClick = () => this.props.onConnectClick()
 
   handlePayClick = event => {
     event.preventDefault()
@@ -41,7 +38,12 @@ class Pay extends React.Component {
                   </Button>
                 </div>
               ) : (
-                <Button primary as="a" href={this.props.authorizationURL}>
+                <Button
+                  primary
+                  as="a"
+                  href={this.props.authorizationURL}
+                  onClick={this.handleConnectClick}
+                >
                   Connect
                 </Button>
               ))}

@@ -30,7 +30,11 @@ class Callback extends React.Component {
       localStorage.setItem('@1000pals.token', JSON.stringify(accessToken))
       localStorage.setItem('@1000pals.accountId', JSON.stringify(jwtData.bkg))
 
-      window.location.href = '/checkout'
+      const loginRedirectPath = JSON.parse(
+        localStorage.getItem('loginRedirectPath')
+      )
+
+      window.location.href = loginRedirectPath || '/'
     } catch (error) {
       console.error('Could not log in', error)
       this.setState({ error: error.message, fetching: false })

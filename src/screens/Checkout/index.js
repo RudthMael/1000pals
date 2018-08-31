@@ -17,7 +17,8 @@ class Checkout extends React.Component {
       wallet: null,
       fetching: true,
       submitting: false,
-      error: null
+      error: null,
+      errorDetails: null
     }
   }
 
@@ -71,6 +72,12 @@ class Checkout extends React.Component {
     return url
   }
 
+  handleConnectClick = () =>
+    localStorage.setItem(
+      'loginRedirectPath',
+      JSON.stringify(this.props.location.pathname)
+    )
+
   handlePayClick = async () => {
     if (this.state.submitting) {
       return
@@ -121,8 +128,25 @@ class Checkout extends React.Component {
 
       this.props.history.push(`/order/${payment.uuid}`)
     } catch (error) {
-      console.error('Could not make payment', error)
-      this.setState({ error: error.message, submitting: false })
+      console.error('Could not make payment', error.response)
+      const details =
+        error.response.error.details &&
+        Object.keys(error.response.error.details)
+          .reduce(
+            (acc, key) => [
+              ...acc,
+              `${key}: ${error.response.error.details[key]
+                .map(v => v.message)
+                .join(', ')}`
+            ],
+            []
+          )
+          .join(',')
+      this.setState({
+        error: error.message,
+        errorDetails: details,
+        submitting: false
+      })
     }
   }
 
@@ -139,7 +163,9 @@ class Checkout extends React.Component {
           {...this.props}
           cart={this.currentCart}
           error={this.state.error}
+          errorDetails={this.state.errorDetails}
           onPayClick={this.handlePayClick}
+          onConnectClick={this.handleConnectClick}
           authorizationURL={this.authorizationURL}
         />
       </Context.Provider>

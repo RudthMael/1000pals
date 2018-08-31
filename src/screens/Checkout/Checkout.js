@@ -8,6 +8,7 @@ const CheckoutScreen = ({
   onPayClick,
   authorizationURL,
   error,
+  errorDetails,
   cart
 }) => {
   return (
@@ -20,7 +21,12 @@ const CheckoutScreen = ({
         <Message
           negative
           header="Oops! Could not complete your order!"
-          content={error}
+          content={
+            <div>
+              {error}
+              {errorDetails && <div>{errorDetails}</div>}
+            </div>
+          }
         />
       )}
 
@@ -28,6 +34,7 @@ const CheckoutScreen = ({
 
       <Pay
         onPayClick={onPayClick}
+        onConnectClick={onConnectClick}
         authorizationURL={authorizationURL}
         cart={cart}
       />

@@ -9,10 +9,10 @@ export default {
     const data = await response.json()
 
     if (!response.ok) {
-      const error = new Error(data.result.error.message)
-      error.result = data.result
+      const error = new Error(data.error.message)
+      error.response = data
 
-      throw new Error(error)
+      throw error
     }
 
     return data
