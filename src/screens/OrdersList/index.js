@@ -43,16 +43,14 @@ class OrdersList extends React.Component {
             Authorization: `Bearer ${token}`
           },
           method: 'PUT',
-          body: JSON.stringify({})
         })
 
-        await Api.fetch(`${API_HOST}/payments/${orderId}/refund`, {
+        const { payment } = await Api.fetch(`${API_HOST}/payments/${orderId}/refund`, {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`
           },
           method: 'POST',
-          body: JSON.stringify({})
         })
       }
     } catch (error) {
