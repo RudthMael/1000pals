@@ -6,15 +6,21 @@ export default {
       return null
     }
 
-    const data = await response.json()
+    if (response.ok) {
+      const data = await response.json()
+      return data
+    } else {
+      let error = null
 
-    if (!response.ok) {
-      const error = new Error(data.error.message)
-      error.response = data
+      try {
+        const data = await response.json()
+        error = new Error(data.error.message)
+        error.response = data
+      } catch (e) {
+        error = new Error('Api error')
+      }
 
       throw error
     }
-
-    return data
   }
 }

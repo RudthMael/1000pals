@@ -35,18 +35,14 @@ app.use((err, req, res, next) => {
 
   if (err.name === 'UnauthorizedError') {
     res.status(401).json({
-      result: {
-        error: {
-          message: err.message
-        }
+      error: {
+        message: err.message
       }
     })
   } else {
     res.status(500).json({
-      result: {
-        error: {
-          message: err.message
-        }
+      error: {
+        message: err.message
       }
     })
   }
@@ -64,10 +60,8 @@ app.post('/login', async (req, res) => {
   } catch (error) {
     console.error(error)
     res.status(401).json({
-      result: {
-        error: {
-          message: 'Invalid code.'
-        }
+      error: {
+        message: 'Invalid code.'
       }
     })
   }
@@ -81,10 +75,8 @@ app.post('/payments', jwtProtection, async (req, res) => {
     })
   } catch (error) {
     res.status(400).json({
-      result: {
-        error: {
-          message: error.message
-        }
+      error: {
+        message: error.message
       }
     })
   }
@@ -101,10 +93,8 @@ app.get('/payments', jwtProtection, async (req, res) => {
   } catch (error) {
     console.error(error)
     res.status(400).json({
-      result: {
-        error: {
-          message: error.message
-        }
+      error: {
+        message: error.message
       }
     })
   }
@@ -121,10 +111,8 @@ app.post('/payments/:paymentId/refund', jwtProtection, async (req, res) => {
   } catch (error) {
     console.error(error)
     res.status(400).json({
-      result: {
-        error: {
-          message: error.message
-        }
+      error: {
+        message: error.message
       }
     })
   }
