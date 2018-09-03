@@ -4,7 +4,7 @@ import 'semantic-ui-css/semantic.min.css'
 
 import './index.css'
 import App from './router'
-import registerServiceWorker from './registerServiceWorker'
+import { unregister } from './registerServiceWorker'
 
 ReactDOM.render(<App />, document.getElementById('root'))
-registerServiceWorker()
+unregister()
