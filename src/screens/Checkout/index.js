@@ -65,7 +65,7 @@ class Checkout extends React.Component {
       'response_type=code',
       `client_id=${OAUTH_UID}`,
       `redirect_uri=${window.location.origin}/callback`,
-      'scope=wallet_read payment_write'
+      'scope=wallet_read payment_write payment_read'
     ].join('&')
     const url = [`${OAUTH_HOST}/oauth/authorize`, query].join('?')
 
